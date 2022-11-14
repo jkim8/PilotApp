@@ -36,7 +36,7 @@ const CustomDrawer = ({navigation}: any) => {
 const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
-      drawerContent={({navigation}) => (
+      drawerContent={({navigation}: any) => (
         <CustomDrawer navigation={navigation} />
       )}>
       <Drawer.Screen

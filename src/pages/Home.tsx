@@ -1,5 +1,13 @@
-import {Text, FlatList, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  FlatList,
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+} from 'react-native';
 
+const WIDTH = Dimensions.get('window').width;
 const DATA = [
   {
     id: '1',
@@ -41,10 +49,122 @@ const DATA = [
     id: '10',
     title: 'Tenth Item',
   },
+  {
+    id: '11',
+    title: 'Tenth Item',
+  },
+  {
+    id: '12',
+    title: 'Tenth Item',
+  },
+  {
+    id: '13',
+    title: 'Tenth Item',
+  },
+  {
+    id: '14',
+    title: 'Tenth Item',
+  },
+  {
+    id: '15',
+    title: 'Tenth Item',
+  },
+  {
+    id: '16',
+    title: 'Tenth Item',
+  },
+  {
+    id: '17',
+    title: 'Tenth Item',
+  },
+  {
+    id: '18',
+    title: 'Tenth Item',
+  },
+  {
+    id: '19',
+    title: 'Tenth Item',
+  },
+  {
+    id: '20',
+    title: 'Tenth Item',
+  },
+  {
+    id: '21',
+    title: 'Tenth Item',
+  },
+  {
+    id: '22',
+    title: 'Tenth Item',
+  },
+  {
+    id: '23',
+    title: 'Tenth Item',
+  },
+  {
+    id: '24',
+    title: 'Tenth Item',
+  },
+  {
+    id: '25',
+    title: 'Tenth Item',
+  },
+  {
+    id: '26',
+    title: 'Tenth Item',
+  },
+  {
+    id: '27',
+    title: 'Tenth Item',
+  },
+  {
+    id: '28',
+    title: 'Tenth Item',
+  },
+  {
+    id: '29',
+    title: 'Tenth Item',
+  },
+  {
+    id: '30',
+    title: 'Tenth Item',
+  },
+  {
+    id: '31',
+    title: 'Tenth Item',
+  },
+  {
+    id: '32',
+    title: 'Tenth Item',
+  },
+  {
+    id: '33',
+    title: 'Tenth Item',
+  },
+  {
+    id: '34',
+    title: 'Tenth Item',
+  },
+  {
+    id: '34',
+    title: 'Tenth Item',
+  },
+  {
+    id: '35',
+    title: 'Tenth Item',
+  },
+  {
+    id: '36',
+    title: 'Tenth Item',
+  },
 ];
 
 const Item = ({title}: any) => (
   <View style={styles.item}>
+    <Image
+      style={{width: 70, height: 70}}
+      source={require('../assets/ios.png')}
+    />
     <Text style={styles.title}>{title}</Text>
   </View>
 );
@@ -57,28 +177,31 @@ function Home() {
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        numColumns={3}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
+  container: {},
+
   item: {
-    width: 200,
-    backgroundColor: '#E2E8F0',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    flex: 1 / 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+    height: WIDTH / 3 - 20,
+    borderRadius: 20,
+    borderColor: 'gray',
+    borderWidth: 0.1,
+    backgroundColor: 'white',
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
-  title: {
-    fontSize: 28,
-  },
+  title: {fontSize: 15},
 });
 
 export default Home;
