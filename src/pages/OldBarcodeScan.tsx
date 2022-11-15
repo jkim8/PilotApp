@@ -17,6 +17,7 @@ function OldBarcodeScan() {
   const [shouldReadBarcode, setShouldReadBarcode] = useState(true);
 
   const onBarCodeRead = (scanResult: any) => {
+    console.log(scanResult);
     console.log(scanResult.data);
     setBarcode(scanResult.data);
 

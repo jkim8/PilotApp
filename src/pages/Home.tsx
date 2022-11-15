@@ -196,14 +196,15 @@ const styles = StyleSheet.create({
   },
   listItem: {
     marginTop: 10,
+    height: 100,
     paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
     flexDirection: 'row',
   },
   coverImage: {
-    width: 100,
-    height: 100,
+    width: 60,
+    height: 60,
     borderRadius: 8,
   },
   metaInfo: {
@@ -213,6 +214,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     width: 200,
     padding: 10,
+    textAlign: 'right',
   },
 });
 
