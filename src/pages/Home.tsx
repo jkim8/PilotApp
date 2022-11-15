@@ -146,10 +146,6 @@ const DATA = [
     title: 'Tenth Item',
   },
   {
-    id: '34',
-    title: 'Tenth Item',
-  },
-  {
     id: '35',
     title: 'Tenth Item',
   },
@@ -157,47 +153,67 @@ const DATA = [
     id: '36',
     title: 'Tenth Item',
   },
+  {
+    id: '37',
+    title: 'Tenth Item',
+  },
 ];
 
-const Item = ({title}: any) => (
-  <View style={styles.item}>
-    <Image
-      style={{width: 70, height: 70}}
-      source={require('../assets/ios.png')}
-    />
-    <Text style={styles.title}>{title}</Text>
+const Item = ({item}: any) => (
+  <View style={styles.listItem}>
+    <Image style={styles.coverImage} source={require('../assets/ios.png')} />
+    <View style={styles.metaInfo}>
+      <Text style={styles.title}>{item.id}</Text>
+      <Text style={styles.title}>{item.title}</Text>
+    </View>
   </View>
 );
 
 function Home() {
-  const renderItem = ({item}: any) => <Item title={item.title} />;
+  const renderItem = ({item}: any) => <Item item={item} />;
   return (
     <View style={styles.container}>
       <FlatList
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        numColumns={3}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
-
-  item: {
-    flex: 1 / 3,
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f8f8',
     alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10,
-    height: WIDTH / 3 - 20,
-    borderRadius: 20,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'gray',
   },
-  title: {fontSize: 15},
+  text: {
+    fontSize: 20,
+    color: '#101010',
+    marginTop: 60,
+    fontWeight: '700',
+  },
+  listItem: {
+    marginTop: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+  },
+  coverImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  metaInfo: {
+    marginLeft: 10,
+  },
+  title: {
+    fontSize: 18,
+    width: 200,
+    padding: 10,
+  },
 });
 
 export default Home;

@@ -1,13 +1,12 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Camera from './Camera';
-import Complete from './Complete';
 import {RNCamera} from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import {
+  Alert,
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,10 +14,27 @@ import {useState} from 'react';
 
 function OldBarcodeScan() {
   const [barcode, setBarcode] = useState('');
-  const onBarCodeRead = (scanResult: any) => {
-    console.log(scanResult);
+  const [shouldReadBarcode, setShouldReadBarcode] = useState(true);
 
-    // scanResult.data will contain your scanned data
+  const onBarCodeRead = (scanResult: any) => {
+    console.log(scanResult.data);
+    setBarcode(scanResult.data);
+
+    if (barcode) {
+      Alert.alert('Barcode Scanned', `Barcode: ${barcode}`, [
+        {
+          text: 'Reset',
+          onPress: () => resetBarcod(),
+          style: 'default',
+        },
+      ]);
+      setShouldReadBarcode(false);
+    }
+  };
+
+  const resetBarcod = () => {
+    setBarcode('');
+    setShouldReadBarcode(true);
   };
 
   const onGetItemPress = () => {
@@ -30,32 +46,32 @@ function OldBarcodeScan() {
   };
   return (
     <KeyboardAvoidingView style={styles.root}>
-      {' '}
       {/* OR Use a simple <View> instead of <KeyboardAvoidingView> */}
       <View style={styles.upperSection}>
         <RNCamera
-          onBarCodeRead={onBarCodeRead}
-          // ... other related props of RNCamera
-        >
+          captureAudio={false}
+          style={{flex: 1}}
+          onBarCodeRead={shouldReadBarcode === true ? onBarCodeRead : undefined}
+          flashMode={RNCamera.Constants.FlashMode.on}>
           <BarcodeMask
-            width={100}
+            width={300}
             height={300}
-            showAnimatedLine={false}
-            outerMaskOpacity={0.8}
+            showAnimatedLine={true}
+            outerMaskOpacity={0.7}
           />
         </RNCamera>
       </View>
       <View style={styles.lowerSection}>
         <View>
           <Icon name="barcode-outline" size={25} />
-          <input
+          <TextInput
             placeholder="Barcode of the item"
             value={barcode}
             onChange={handleChange}
           />
         </View>
         <Pressable onPress={onGetItemPress}>
-          <Text>Get Item</Text>
+          <Text>Order</Text>
         </Pressable>
       </View>
     </KeyboardAvoidingView>
