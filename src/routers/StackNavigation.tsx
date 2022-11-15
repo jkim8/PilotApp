@@ -8,8 +8,8 @@ function StackNavigation() {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: true}}
-      initialRouteName="Orders">
-      <Stack.Screen name="Orders" component={Orders} />
+      initialRouteName="Order">
+      <Stack.Screen name="Order" component={Orders} />
       <Stack.Screen name="OrderDetail" component={OrderDetail} />
     </Stack.Navigator>
   );

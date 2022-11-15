@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import MenuButton from './MenuButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import StackNavigation from './StackNavigation';
+import OldBarcodeScan from '../pages/OldBarcodeScan';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +22,7 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name="Order"
+        name="Orders"
         component={StackNavigation}
         options={{
           headerShown: false,
@@ -29,10 +30,16 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name="BarcodeScan"
+        name="OldBarcode"
+        component={OldBarcodeScan}
+        options={{tabBarIcon: () => <Icon name="barcode-outline" size={25} />}}
+      />
+      <Tab.Screen
+        name="Barcode"
         component={BarcodeScan}
         options={{tabBarIcon: () => <Icon name="barcode-outline" size={25} />}}
       />
+
       <Tab.Screen
         name="Settings"
         component={Settings}
