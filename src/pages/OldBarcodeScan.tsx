@@ -1,98 +1,65 @@
-import {RNCamera} from 'react-native-camera';
-import BarcodeMask from 'react-native-barcode-mask';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useState} from 'react';
+import OldBarcodeComponent from '../components/OldBarcodeComponent';
+
+const Stack = createNativeStackNavigator();
+
+function ScanButton({navigation}: any) {
+  return (
+    <View style={styles.container}>
+      <TouchableHighlight
+        style={styles.button}
+        onPress={() => navigation.navigate('Old Barcode Scanner')}>
+        <View style={styles.buttonContainer}>
+          <Icon style={styles.icon} name="camera-outline" size={25} />
+          <Text style={styles.text}>Old Barcode Scanner</Text>
+        </View>
+      </TouchableHighlight>
+    </View>
+  );
+}
 
 function OldBarcodeScan() {
-  const [barcode, setBarcode] = useState('');
-  const [shouldReadBarcode, setShouldReadBarcode] = useState(true);
-
-  const onBarCodeRead = (scanResult: any) => {
-    console.log(scanResult);
-    console.log(scanResult.data);
-    setBarcode(scanResult.data);
-
-    if (barcode) {
-      Alert.alert('Barcode Scanned', `Barcode: ${barcode}`, [
-        {
-          text: 'Reset',
-          onPress: () => resetBarcod(),
-          style: 'default',
-        },
-      ]);
-      setShouldReadBarcode(false);
-    }
-  };
-
-  const resetBarcod = () => {
-    setBarcode('');
-    setShouldReadBarcode(true);
-  };
-
-  const onGetItemPress = () => {
-    // do something with button press
-  };
-
-  const handleChange = () => {
-    // handle user input
-  };
   return (
-    <KeyboardAvoidingView style={styles.root}>
-      {/* OR Use a simple <View> instead of <KeyboardAvoidingView> */}
-      <View style={styles.upperSection}>
-        <RNCamera
-          captureAudio={false}
-          style={{flex: 1}}
-          onBarCodeRead={shouldReadBarcode === true ? onBarCodeRead : undefined}
-          flashMode={RNCamera.Constants.FlashMode.on}>
-          <BarcodeMask
-            width={300}
-            height={300}
-            showAnimatedLine={true}
-            outerMaskOpacity={0.7}
-          />
-        </RNCamera>
-      </View>
-      <View style={styles.lowerSection}>
-        <View>
-          <Icon name="barcode-outline" size={25} />
-          <TextInput
-            placeholder="Barcode of the item"
-            value={barcode}
-            onChange={handleChange}
-          />
-        </View>
-        <Pressable onPress={onGetItemPress}>
-          <Text>Order</Text>
-        </Pressable>
-      </View>
-    </KeyboardAvoidingView>
+    <Stack.Navigator>
+      <Stack.Screen name="Old Barcode Scan" component={ScanButton} />
+      <Stack.Screen
+        name="Old Barcode Scanner"
+        component={OldBarcodeComponent}
+      />
+    </Stack.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  upperSection: {
+  buttonContainer: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  lowerSection: {
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    backgroundColor: 'white',
+  button: {
+    width: 280,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3182CE',
+    borderRadius: 15,
   },
-  camera: {
-    height: '100%',
+  icon: {
+    color: 'white',
+    marginRight: 15,
+  },
+  text: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: '700',
   },
 });
 

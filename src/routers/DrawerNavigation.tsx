@@ -28,7 +28,10 @@ const CustomDrawer = ({navigation}: any) => {
         label="Old Bacode Scan"
         onPress={() => goToStack('OldBarcode')}
       />
-      <DrawerItem label="Bacode Scan" onPress={() => goToStack('Barcode')} />
+      <DrawerItem
+        label="New Bacode Scan"
+        onPress={() => goToStack('NewBarcode')}
+      />
       <DrawerItem label="Settings" onPress={() => goToStack('Settings')} />
     </DrawerContentScrollView>
   );

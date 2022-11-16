@@ -32,10 +32,13 @@ function TabNavigation() {
       <Tab.Screen
         name="OldBarcode"
         component={OldBarcodeScan}
-        options={{tabBarIcon: () => <Icon name="barcode-outline" size={25} />}}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <Icon name="barcode-outline" size={25} />,
+        }}
       />
       <Tab.Screen
-        name="Barcode"
+        name="NewBarcode"
         component={BarcodeScan}
         options={{tabBarIcon: () => <Icon name="barcode-outline" size={25} />}}
       />
