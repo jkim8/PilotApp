@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import BarcodeScan from '../pages/BarcodeScan';
 import Settings from '../pages/Settings';
 import Home from '../pages/Home';
 import MenuButton from './MenuButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import StackNavigation from './StackNavigation';
 import OldBarcodeScan from '../pages/OldBarcodeScan';
+import NewBarcodeScan from '../pages/NewBarcodeScan';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,8 +39,11 @@ function TabNavigation() {
       />
       <Tab.Screen
         name="NewBarcode"
-        component={BarcodeScan}
-        options={{tabBarIcon: () => <Icon name="barcode-outline" size={25} />}}
+        component={NewBarcodeScan}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <Icon name="barcode-outline" size={25} />,
+        }}
       />
 
       <Tab.Screen
