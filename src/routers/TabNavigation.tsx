@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import StackNavigation from './StackNavigation';
 import OldBarcodeScan from '../pages/OldBarcodeScan';
 import NewBarcodeScan from '../pages/NewBarcodeScan';
+import NewBarcodeComponent from '../components/NewBarcodeComponent';
+import OldBarcodeComponent from '../components/OldBarcodeComponent';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,16 +33,18 @@ function TabNavigation() {
       />
       <Tab.Screen
         name="OldBarcode"
-        component={OldBarcodeScan}
+        component={OldBarcodeComponent}
         options={{
+          unmountOnBlur: true,
           headerShown: false,
           tabBarIcon: () => <Icon name="barcode-outline" size={25} />,
         }}
       />
       <Tab.Screen
         name="NewBarcode"
-        component={NewBarcodeScan}
+        component={NewBarcodeComponent}
         options={{
+          unmountOnBlur: true,
           headerShown: false,
           tabBarIcon: () => <Icon name="barcode-outline" size={25} />,
         }}

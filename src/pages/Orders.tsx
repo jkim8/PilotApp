@@ -1,180 +1,109 @@
-import {Text, FlatList, View, StyleSheet, Image, Button} from 'react-native';
+import {
+  Text,
+  FlatList,
+  View,
+  StyleSheet,
+  Image,
+  Button,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 
-const DATA = [
-  {
-    id: '1',
-    title: 'First Item',
-  },
-  {
-    id: '2',
-    title: 'Second Item',
-  },
-  {
-    id: '3',
-    title: 'Third Item',
-  },
-  {
-    id: '4',
-    title: 'Forth Item',
-  },
-  {
-    id: '5',
-    title: 'Fifth Item',
-  },
-  {
-    id: '6',
-    title: 'Sixth Item',
-  },
-  {
-    id: '7',
-    title: 'Seventh Item',
-  },
-  {
-    id: '8',
-    title: 'Eighth Item',
-  },
-  {
-    id: '9',
-    title: 'Ninth Item',
-  },
-  {
-    id: '10',
-    title: 'Tenth Item',
-  },
-  {
-    id: '11',
-    title: 'Tenth Item',
-  },
-  {
-    id: '12',
-    title: 'Tenth Item',
-  },
-  {
-    id: '13',
-    title: 'Tenth Item',
-  },
-  {
-    id: '14',
-    title: 'Tenth Item',
-  },
-  {
-    id: '15',
-    title: 'Tenth Item',
-  },
-  {
-    id: '16',
-    title: 'Tenth Item',
-  },
-  {
-    id: '17',
-    title: 'Tenth Item',
-  },
-  {
-    id: '18',
-    title: 'Tenth Item',
-  },
-  {
-    id: '19',
-    title: 'Tenth Item',
-  },
-  {
-    id: '20',
-    title: 'Tenth Item',
-  },
-  {
-    id: '21',
-    title: 'Tenth Item',
-  },
-  {
-    id: '22',
-    title: 'Tenth Item',
-  },
-  {
-    id: '23',
-    title: 'Tenth Item',
-  },
-  {
-    id: '24',
-    title: 'Tenth Item',
-  },
-  {
-    id: '25',
-    title: 'Tenth Item',
-  },
-  {
-    id: '26',
-    title: 'Tenth Item',
-  },
-  {
-    id: '27',
-    title: 'Tenth Item',
-  },
-  {
-    id: '28',
-    title: 'Tenth Item',
-  },
-  {
-    id: '29',
-    title: 'Tenth Item',
-  },
-  {
-    id: '30',
-    title: 'Tenth Item',
-  },
-  {
-    id: '31',
-    title: 'Tenth Item',
-  },
-  {
-    id: '32',
-    title: 'Tenth Item',
-  },
-  {
-    id: '33',
-    title: 'Tenth Item',
-  },
-  {
-    id: '34',
-    title: 'Tenth Item',
-  },
-  {
-    id: '35',
-    title: 'Tenth Item',
-  },
-  {
-    id: '36',
-    title: 'Tenth Item',
-  },
-  {
-    id: '37',
-    title: 'Tenth Item',
-  },
-];
+const WIDTH = Dimensions.get('window').width;
 
 const Item = ({item}: any) => (
   <View style={styles.listItem}>
-    <Image style={styles.coverImage} source={require('../assets/ios.png')} />
-    <View style={styles.metaInfo}>
-      <Text style={styles.title}>{item.id}</Text>
-      <Text style={styles.title}>{item.title}</Text>
+    <View style={styles.leftBox}>
+      {item.ItemColorCode ? (
+        <Image
+          style={styles.coverImage}
+          source={{
+            uri: `https://www.sunssc.com/ItemImg/GLB/${item.ItemColorCode}.jpg`,
+          }}
+          defaultSource={require('../assets/gb.png')}
+        />
+      ) : (
+        <Image style={styles.coverImage} source={require('../assets/gb.png')} />
+      )}
+
+      <Text style={styles.itemColorCode}>{item.ItemColorCode}</Text>
+      <Text style={styles.barcode}>[{item.BarCode}]</Text>
+    </View>
+    <View style={styles.rightBox}>
+      <Text numberOfLines={2} style={styles.itemName}>
+        {item.ItemName}
+      </Text>
+      <Text style={styles.unitPrice}>Unit Price : ${item.UnitPrice}</Text>
+      <Text style={styles.salesUnit}>
+        ${item.UnitPrice} ({item.SalesUnit})
+      </Text>
     </View>
   </View>
 );
 
 function Orders({navigation}: any) {
+  const [itemList, setItemList] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState(null);
+  const [listPage, setListPage] = useState(20);
+
+  const fetchItemList = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 users 를 초기화하고
+      setError(null);
+      setItemList(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+      const response = await axios.get(
+        `https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=${listPage}&page=1`,
+      );
+      setItemList(response.data); // 데이터는 response.data 안에 들어있습니다.
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+  const onEndReached = async () => {
+    console.log('reached');
+
+    setListPage(listPage + 20);
+
+    const response = await axios.get(
+      `https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=${listPage}&page=1`,
+    );
+    setItemList(response.data); // 데이터는 response.data 안에 들어있습니다.
+  };
+
+  useEffect(() => {
+    fetchItemList();
+  }, []);
+
+  console.log(itemList);
+
   const renderItem = ({item}: any) => <Item item={item} />;
   return (
     <View style={styles.container}>
-      <Text>Order List</Text>
+      {/* <Text>Order List</Text>
       <Button
         title="Open Detail"
         onPress={() => navigation.navigate('OrderDetail')}
-      />
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      /> */}
+      {loading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color={'gray'} />
+        </View>
+      ) : (
+        <FlatList
+          data={itemList}
+          renderItem={renderItem}
+          keyExtractor={item => item.BarCode}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.7}
+          ListFooterComponent={loading && <ActivityIndicator />}
+        />
+      )}
     </View>
   );
 }
@@ -193,8 +122,8 @@ const styles = StyleSheet.create({
   },
   listItem: {
     marginTop: 10,
-    height: 100,
-    paddingVertical: 20,
+    width: WIDTH * 0.9,
+    paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
     flexDirection: 'row',
@@ -204,14 +133,31 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 8,
   },
-  metaInfo: {
-    marginLeft: 10,
+  leftBox: {flex: 1},
+  rightBox: {
+    flex: 2,
   },
-  title: {
-    fontSize: 18,
-    width: 200,
-    padding: 10,
-    textAlign: 'right',
+  itemColorCode: {
+    fontSize: 10,
+  },
+  barcode: {fontSize: 10},
+  itemName: {
+    fontSize: 11,
+    fontWeight: '700',
+    marginRight: 10,
+    textAlign: 'left',
+    marginBottom: 25,
+  },
+  unitPrice: {fontSize: 11, textAlign: 'right'},
+  salesUnit: {fontSize: 12, color: 'red', textAlign: 'right'},
+  loading: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

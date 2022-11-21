@@ -142,6 +142,7 @@ android {
         versionName "1.1"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         missingDimensionStrategy 'react-native-camera', 'mlkit'
+        resConfigs "en", "ko"
 
 
         if (isNewArchitectureEnabled()) {
@@ -233,10 +234,10 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            shrinkResources true // here
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.release
+            shrinkResources true // here
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -247,6 +248,7 @@ android {
     }
 
     packagingOptions {
+ 
         pickFirst "lib/armeabi-v7a/libc++_shared.so"
         pickFirst "lib/arm64-v8a/libc++_shared.so"
         pickFirst "lib/x86/libc++_shared.so"

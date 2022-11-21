@@ -11,13 +11,20 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useState} from 'react';
-
-const WIDTH = Dimensions.get('window').width;
+import {useEffect, useState} from 'react';
+import {useIsFocused} from '@react-navigation/native';
 
 function OldBarcodeComponent() {
   const [barcode, setBarcode] = useState('');
   const [shouldReadBarcode, setShouldReadBarcode] = useState(true);
+  const isFocused = useIsFocused();
+  const WIDTH = Dimensions.get('window').width;
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log('Old Focused!!');
+    }
+  }, [isFocused]);
 
   const onBarCodeRead = (scanResult: any) => {
     console.log(scanResult);
@@ -58,11 +65,24 @@ function OldBarcodeComponent() {
           onBarCodeRead={shouldReadBarcode === true ? onBarCodeRead : undefined}
           flashMode={RNCamera.Constants.FlashMode.on}>
           <BarcodeMask
+            showAnimatedLine={false}
             width={WIDTH}
             height={80}
-            showAnimatedLine={true}
             outerMaskOpacity={0.7}
           />
+          <View
+            style={{
+              flex: 1,
+              height: 1,
+              borderColor: 'white',
+              borderBottomWidth: 2,
+              borderBottomColor: 'White',
+              position: 'absolute',
+              zIndex: 0,
+              top: '50%',
+            }}>
+            <Text style={{width: WIDTH}} />
+          </View>
         </RNCamera>
       </View>
       <View style={styles.lowerSection}>
