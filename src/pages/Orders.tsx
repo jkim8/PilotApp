@@ -48,6 +48,30 @@ function Orders({navigation}: any) {
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
   const [listPage, setListPage] = useState(20);
+  const [data, setData] = useState(null);
+
+  const nonExsistItemSearch = async () => {
+    try {
+      const response = await axios.get(
+        'https://api.upcitemdb.com/prod/v1/lookup?upc=0037000962564',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            user_key: '1e77cf2c45d84d485bcddb6dc31d8544',
+            key_type: '3scale',
+          },
+        },
+      );
+      console.log(data);
+      setData(response.data.items[0].title);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    nonExsistItemSearch();
+  }, [data]);
 
   const fetchItemList = async () => {
     try {
@@ -80,7 +104,7 @@ function Orders({navigation}: any) {
     fetchItemList();
   }, []);
 
-  console.log(itemList);
+  // console.log(itemList);
 
   const renderItem = ({item}: any) => <Item item={item} />;
   return (
@@ -100,7 +124,6 @@ function Orders({navigation}: any) {
           renderItem={renderItem}
           keyExtractor={item => item.BarCode}
           onEndReached={onEndReached}
-          onEndReachedThreshold={0.7}
           ListFooterComponent={loading && <ActivityIndicator />}
         />
       )}
