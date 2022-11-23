@@ -4,6 +4,9 @@ import 'react-native-gesture-handler';
 import DrawerNavigation from './src/routers/DrawerNavigation';
 import ValidationCheck from './src/routers/ValidationCheck';
 import {createStackNavigator} from '@react-navigation/stack';
+import {QueryClient, QueryClientProvider} from 'react-query';
+
+const queryClient = new QueryClient();
 
 const RootStack = createStackNavigator();
 
@@ -22,7 +25,7 @@ export type RootStackParamList = {
 function App() {
   const [verified, setVerified] = useState(true);
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         {verified ? (
           <RootStack.Navigator>
@@ -38,7 +41,7 @@ function App() {
           </RootStack.Navigator>
         )}
       </NavigationContainer>
-    </>
+    </QueryClientProvider>
   );
 }
 

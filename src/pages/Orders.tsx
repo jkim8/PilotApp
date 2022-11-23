@@ -12,6 +12,8 @@ import axios from 'axios';
 import {useEffect, useState} from 'react';
 
 const WIDTH = Dimensions.get('window').width;
+const BASE_URL =
+  'https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=10&page=';
 
 const Item = ({item}: any) => (
   <View style={styles.listItem}>
@@ -44,67 +46,42 @@ const Item = ({item}: any) => (
 );
 
 function Orders({navigation}: any) {
-  const [itemList, setItemList] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const [error, setError] = useState(null);
-  const [listPage, setListPage] = useState(20);
-  const [data, setData] = useState(null);
+  const [itemList, setItemList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [listPage, setListPage] = useState(1);
+  const [bottomLoading, setBottomLoading] = useState(false);
 
-  const nonExsistItemSearch = async () => {
+  useEffect(() => {
+    setLoading(true);
+
+    getData();
+  }, []);
+
+  const getData = async () => {
     try {
-      const response = await axios.get(
-        'https://api.upcitemdb.com/prod/v1/lookup?upc=0037000962564',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            user_key: '1e77cf2c45d84d485bcddb6dc31d8544',
-            key_type: '3scale',
-          },
-        },
-      );
-      console.log(data);
-      setData(response.data.items[0].title);
+      const response = await axios
+        .get(`${BASE_URL}${listPage}`)
+        .then(response => {
+          if (listPage > 1) {
+            let arr = [...itemList, ...response.data];
+            setItemList(arr);
+          } else {
+            setItemList(response.data);
+          }
+          setBottomLoading(false);
+        });
     } catch (e) {
       console.log(e);
     }
-  };
-
-  useEffect(() => {
-    nonExsistItemSearch();
-  }, [data]);
-
-  const fetchItemList = async () => {
-    try {
-      // 요청이 시작 할 때에는 error 와 users 를 초기화하고
-      setError(null);
-      setItemList(null);
-      // loading 상태를 true 로 바꿉니다.
-      setLoading(true);
-      const response = await axios.get(
-        `https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=${listPage}&page=1`,
-      );
-      setItemList(response.data); // 데이터는 response.data 안에 들어있습니다.
-    } catch (e) {
-      setError(e);
-    }
     setLoading(false);
   };
+
   const onEndReached = async () => {
-    console.log('reached');
-
-    setListPage(listPage + 20);
-
-    const response = await axios.get(
-      `https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=${listPage}&page=1`,
-    );
-    setItemList(response.data); // 데이터는 response.data 안에 들어있습니다.
+    setBottomLoading(true);
+    let pageNumber = listPage + 1;
+    setListPage(pageNumber);
+    getData();
   };
-
-  useEffect(() => {
-    fetchItemList();
-  }, []);
-
-  // console.log(itemList);
 
   const renderItem = ({item}: any) => <Item item={item} />;
   return (
@@ -124,7 +101,10 @@ function Orders({navigation}: any) {
           renderItem={renderItem}
           keyExtractor={item => item.BarCode}
           onEndReached={onEndReached}
-          ListFooterComponent={loading && <ActivityIndicator />}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            bottomLoading === true ? <ActivityIndicator /> : null
+          }
         />
       )}
     </View>
