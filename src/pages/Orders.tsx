@@ -4,16 +4,16 @@ import {
   View,
   StyleSheet,
   Image,
-  Button,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
+import {useQuery} from 'react-query';
 
 const WIDTH = Dimensions.get('window').width;
 const BASE_URL =
-  'https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=10&page=';
+  'https://glborderpadserverapitest.azurewebsites.net/api/GLBOrderPads/SelectItemByNameRange?companySeq=5&searchStr=annie&viewCount=100&page=1';
 
 const Item = ({item}: any) => (
   <View style={styles.listItem}>
@@ -48,50 +48,21 @@ const Item = ({item}: any) => (
 function Orders({navigation}: any) {
   const [itemList, setItemList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [listPage, setListPage] = useState(1);
-  const [bottomLoading, setBottomLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-
-    getData();
-  }, []);
 
   const getData = async () => {
     try {
-      const response = await axios
-        .get(`${BASE_URL}${listPage}`)
-        .then(response => {
-          if (listPage > 1) {
-            let arr = [...itemList, ...response.data];
-            setItemList(arr);
-          } else {
-            setItemList(response.data);
-          }
-          setBottomLoading(false);
-        });
+      await axios.get(BASE_URL).then(response => setItemList(response.data));
     } catch (e) {
       console.log(e);
     }
     setLoading(false);
   };
-
-  const onEndReached = async () => {
-    setBottomLoading(true);
-    let pageNumber = listPage + 1;
-    setListPage(pageNumber);
-    getData();
-  };
+  const {isLoading, isError, data, error} = useQuery('getData', getData);
 
   const renderItem = ({item}: any) => <Item item={item} />;
   return (
     <View style={styles.container}>
-      {/* <Text>Order List</Text>
-      <Button
-        title="Open Detail"
-        onPress={() => navigation.navigate('OrderDetail')}
-      /> */}
-      {loading ? (
+      {isLoading ? (
         <View style={styles.loading}>
           <ActivityIndicator size="large" color={'gray'} />
         </View>
@@ -100,11 +71,6 @@ function Orders({navigation}: any) {
           data={itemList}
           renderItem={renderItem}
           keyExtractor={item => item.BarCode}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={
-            bottomLoading === true ? <ActivityIndicator /> : null
-          }
         />
       )}
     </View>

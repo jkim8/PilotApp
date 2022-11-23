@@ -15,7 +15,7 @@ import {RNCamera} from 'react-native-camera';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useIsFocused} from '@react-navigation/native';
 
-function NewBarcodeComponent() {
+function NewBarcodeComponent({navigation}) {
   const [barcode, setBarcode] = useState('');
   const [shouldReadBarcode, setShouldReadBarcode] = useState(true);
   const isFocused = useIsFocused();
@@ -48,7 +48,7 @@ function NewBarcodeComponent() {
         Alert.alert('Barcode Scanned', `Barcode: ${barcode}`, [
           {
             text: 'Reset',
-            onPress: () => resetBarcod(),
+            onPress: () => navigation.pop(),
             style: 'default',
           },
         ]);

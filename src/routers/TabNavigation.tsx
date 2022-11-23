@@ -9,6 +9,7 @@ import OldBarcodeScan from '../pages/OldBarcodeScan';
 import NewBarcodeScan from '../pages/NewBarcodeScan';
 import NewBarcodeComponent from '../components/NewBarcodeComponent';
 import OldBarcodeComponent from '../components/OldBarcodeComponent';
+import ScanItem from '../pages/ScanItem';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,15 @@ function TabNavigation() {
       <Tab.Screen
         name="NewBarcode"
         component={NewBarcodeComponent}
+        options={{
+          unmountOnBlur: true,
+          headerShown: false,
+          tabBarIcon: () => <Icon name="barcode-outline" size={25} />,
+        }}
+      />
+      <Tab.Screen
+        name="ScanItem"
+        component={ScanItem}
         options={{
           unmountOnBlur: true,
           headerShown: false,

@@ -5,6 +5,8 @@ import DrawerNavigation from './src/routers/DrawerNavigation';
 import ValidationCheck from './src/routers/ValidationCheck';
 import {createStackNavigator} from '@react-navigation/stack';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import NewBarcodeComponent from './src/components/NewBarcodeComponent';
+import ScanItem from './src/pages/ScanItem';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,11 @@ function App() {
               component={DrawerNavigation}
               options={{animationEnabled: false, headerShown: false}}
             />
+            <RootStack.Screen
+              name="NewBarcodeComponent"
+              component={NewBarcodeComponent}
+            />
+            <RootStack.Screen name="ScanItem" component={ScanItem} />
           </RootStack.Navigator>
         ) : (
           <RootStack.Navigator>
