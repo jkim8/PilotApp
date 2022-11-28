@@ -54,8 +54,9 @@ function Orders({navigation}: any) {
       await axios.get(BASE_URL).then(response => setItemList(response.data));
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
   const {isLoading, isError, data, error} = useQuery('getData', getData);
 
