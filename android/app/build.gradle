@@ -234,12 +234,14 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
+            shrinkResources true // here
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.release
-            shrinkResources true // here
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
         // stagingrelease {
         //     initWith release
@@ -274,7 +276,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
+    
+    implementation (project(':react-native-camera')){
+        exclude group: 'com.google.mlkit', module: 'face-detection'
+    }
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

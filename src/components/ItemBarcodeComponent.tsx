@@ -14,8 +14,9 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function NewBarcodeComponent({navigation}: any) {
+function ItemBarcodeComponent({navigation}: any) {
   const [barcode, setBarcode] = useState('');
   const [shouldReadBarcode, setShouldReadBarcode] = useState(true);
   const isFocused = useIsFocused();
@@ -29,7 +30,7 @@ function NewBarcodeComponent({navigation}: any) {
 
   useEffect(() => {
     if (isFocused) {
-      console.log('New Focused!!');
+      console.log('Item Scan Focused!!');
     }
   }, [isFocused]);
 
@@ -45,14 +46,23 @@ function NewBarcodeComponent({navigation}: any) {
       setShouldReadBarcode(false);
 
       if (barcode !== '') {
+        storeBarcode(barcode);
         Alert.alert('Barcode Scanned', `Barcode: ${barcode}`, [
           {
-            text: 'Reset',
-            onPress: () => resetBarcod(),
+            text: 'OK',
+            onPress: () => navigation.pop(),
             style: 'default',
           },
         ]);
       }
+    }
+  };
+
+  const storeBarcode = async value => {
+    try {
+      await AsyncStorage.setItem('@storage_Barcode', value);
+    } catch (e) {
+      // saving error
     }
   };
 
@@ -144,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewBarcodeComponent;
+export default ItemBarcodeComponent;
