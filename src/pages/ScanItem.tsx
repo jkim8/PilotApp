@@ -104,8 +104,8 @@ function BarcodeScan({navigation}: any) {
     }
   };
 
-  const renderItem = ({item}) => <Item item={item} />;
-  const Item = ({item}) => (
+  const renderItem = ({item}: any) => <Item item={item} />;
+  const Item = ({item}: any) => (
     <View style={styles.listItem}>
       <View style={styles.leftBox}>
         {item.CompanySeq === 5 ? (
