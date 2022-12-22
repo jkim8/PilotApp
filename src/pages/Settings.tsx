@@ -1,28 +1,20 @@
 import {useState} from 'react';
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Modal, Pressable, StyleSheet, Switch, Text, View} from 'react-native';
 
 function Settings() {
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
   return (
-    <View style={isModalVisible ? styles.modalBackgraound : styles.container}>
-      <Modal
-        style={styles.bottomModalView}
-        visible={isModalVisible}
-        animationType={'slide'}
-        transparent={true}>
-        <View style={styles.modal}>
-          <Pressable onPress={toggleModal}>
-            <Text style={styles.modalText}>Close Modal!</Text>
-          </Pressable>
-        </View>
-      </Modal>
-      <Pressable style={styles.button} onPress={toggleModal}>
-        <Text style={styles.buttonText}>Open modal </Text>
-      </Pressable>
+    <View style={styles.container}>
+      <Text>{isEnabled ? 'Switch is ON' : 'Switch is OFF'}</Text>
+      <Switch
+        trackColor={{false: '#767577', true: '#ffbb3d'}}
+        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
     </View>
   );
 }

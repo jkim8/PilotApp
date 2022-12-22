@@ -11,11 +11,28 @@ function Home() {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/bg.jpeg')}
+        source={require('../assets/winter.jpeg')}
         resizeMode="cover"
         style={styles.background}>
         <TouchableOpacity
-          style={{padding: 30}}
+          style={{
+            padding: 10,
+            width: 200,
+            height: 50,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 15,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
+          }}
           onPress={() => {
             Linking.openURL('https://www.sunssc.com/global/pilot/');
           }}>
@@ -36,11 +53,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: 'red',
-    textDecorationLine: 'underline',
-    fontSize: 20,
+    color: '#307bf2',
+    fontSize: 16,
     fontWeight: '700',
-    paddingBottom: 25,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });
 

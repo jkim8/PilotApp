@@ -32,6 +32,12 @@ const CustomDrawer = ({navigation}: any) => {
         label="New Bacode Scan"
         onPress={() => goToStack('NewBarcode')}
       />
+      <DrawerItem label="Swipe" onPress={() => goToStack('Swipe')} />
+      <DrawerItem
+        label="CameraModal"
+        onPress={() => goToStack('CameraModal')}
+      />
+      <DrawerItem label="ValidationCheck" onPress={() => goToStack('Login')} />
       <DrawerItem label="Settings" onPress={() => goToStack('Settings')} />
     </DrawerContentScrollView>
   );
