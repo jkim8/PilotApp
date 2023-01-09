@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "857020031730",
+    "project_id": "pilotapppush",
+    "storage_bucket": "pilotapppush.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857020031730:android:0d276ced0ba77046c4266b",
+        "android_client_info": {
+          "package_name": "com.pilotapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857020031730-cgerkne8uakj0om58lfoeet61vb6rrjl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUdzlojZBeexm-QfZazSBHD6Ml-hINngU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857020031730-cgerkne8uakj0om58lfoeet61vb6rrjl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "857020031730-faaq2eint1odne46m24cvrs8jehirmu6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sunssc.pilotpusTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

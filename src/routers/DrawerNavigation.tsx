@@ -37,7 +37,6 @@ const CustomDrawer = ({navigation}: any) => {
         label="CameraModal"
         onPress={() => goToStack('CameraModal')}
       />
-      <DrawerItem label="ValidationCheck" onPress={() => goToStack('Login')} />
       <DrawerItem label="Settings" onPress={() => goToStack('Settings')} />
     </DrawerContentScrollView>
   );

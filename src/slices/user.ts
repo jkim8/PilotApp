@@ -1,28 +1,49 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const initialState = {
-  name: '',
-  validationCode: '',
-  accessToken: '',
-  money: 0,
-};
 const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: {
+    validationCode: 123456,
+    verified: true,
+    cart: [],
+    loading: false,
+    phoneToken: '',
+    pushModalTitle: '',
+    pushModalBody: '',
+  },
   reducers: {
-    setUser(state, action) {
-      state.validationCode = action.payload.validationCode;
-      state.name = action.payload.name;
-      state.accessToken = action.payload.accessToken;
+    verifyCode: (state, action) => {
+      state.verified = true;
     },
-    setAccessToken(state, action) {
-      state.accessToken = action.payload;
+    setGlobalLoadingTrue: (state, action) => {
+      state.loading = true;
     },
-    setMoney(state, action) {
-      state.money = action.payload;
+    setGlobalLoadingFalse: (state, action) => {
+      state.loading = false;
+    },
+    setPhoneToken(state, action) {
+      state.phoneToken = action.payload;
+    },
+    setPushNotificationModal: (state, action) => {
+      state.pushModalTitle = action.payload.title;
+      state.pushModalBody = action.payload.body;
+      console.log(state.pushModalTitle);
+      console.log(state.pushModalBody);
+    },
+    setResetPushNotification: (state, action) => {
+      state.pushModalTitle = '';
+      state.pushModalBody = '';
     },
   },
   extraReducers: builder => {},
 });
 
 export default userSlice;
+export const {
+  verifyCode,
+  setGlobalLoadingTrue,
+  setGlobalLoadingFalse,
+  setPhoneToken,
+  setPushNotificationModal,
+  setResetPushNotification,
+} = userSlice.actions;

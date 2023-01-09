@@ -17,6 +17,10 @@ function Swipe() {
   );
 
   const closeRow = (rowMap, rowKey) => {
+    console.log(rowMap);
+    console.log(rowKey);
+    console.log(rowMap[rowKey]);
+
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }

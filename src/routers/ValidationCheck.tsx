@@ -16,6 +16,8 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import {verifyCode} from '../slices/user';
+import {useDispatch} from 'react-redux';
 
 const {Value, Text: AnimatedText} = Animated;
 
@@ -48,6 +50,8 @@ const animateCell = ({hasValue, index, isFocused}) => {
 };
 
 const ValidationCheck = ({navigation}) => {
+  const dispach = useDispatch();
+
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -56,9 +60,20 @@ const ValidationCheck = ({navigation}) => {
   });
 
   const verification = () => {
-    Alert.alert('Verified', '', [
-      {text: 'OK', onPress: () => navigation.navigate('Home')},
-    ]);
+    if (value === '123456') {
+      Alert.alert('Verified', `Your code is ${value}`, [
+        {
+          text: 'OK',
+          onPress: () => dispach(verifyCode(value)),
+        },
+      ]);
+    } else {
+      Alert.alert('Failed', `${value} is not valid, Please try again `, [
+        {
+          text: 'OK',
+        },
+      ]);
+    }
   };
 
   const renderCell = ({index, symbol, isFocused}) => {
@@ -142,6 +157,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingHorizontal: 20,
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   cell: {
     marginHorizontal: 8,
@@ -153,7 +169,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: CELL_BORDER_RADIUS,
     color: '#3759b8',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
 
     // IOS
     shadowColor: '#000',
@@ -173,6 +189,8 @@ const styles = StyleSheet.create({
   root: {
     minHeight: 800,
     padding: 20,
+    backgroundColor: 'white',
+    flex: 1,
   },
   title: {
     paddingTop: 50,
