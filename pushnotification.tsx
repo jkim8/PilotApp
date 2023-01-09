@@ -10,10 +10,3 @@ export async function requestUserPermission() {
     console.log('Authorization status:', authStatus);
   }
 }
-
-export const notificationListner = () => {
-  messaging().onNotificationOpenedApp(async remoteMessage => {
-    console.log('백그라운드에서 알람 클릭', remoteMessage.notification);
-    return remoteMessage;
-  });
-};
